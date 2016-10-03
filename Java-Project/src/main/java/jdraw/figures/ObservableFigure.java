@@ -3,6 +3,7 @@ package jdraw.figures;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -51,7 +52,9 @@ public abstract class ObservableFigure implements Figure {
 	}
 
 	protected void NotifyListeners() {
-		listeners.forEach(l -> l.figureChanged(new FigureEvent(this)));
+		// copy needed because concurrent Exception may occur.
+		Set<FigureListener> listenersCopy = new HashSet<>(listeners);
+		listenersCopy.forEach(l -> l.figureChanged(new FigureEvent(this)));
 	}
 
 	@Override
