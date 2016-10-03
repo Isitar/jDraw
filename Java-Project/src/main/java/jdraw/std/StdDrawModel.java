@@ -7,6 +7,7 @@ package jdraw.std;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 import jdraw.framework.DrawCommandHandler;
@@ -26,16 +27,18 @@ import jdraw.framework.FigureListener;
  *
  */
 public class StdDrawModel implements DrawModel, FigureListener {
-	private ArrayList<Figure> figures;
+	private LinkedList<Figure> figures;
 	private Set<DrawModelListener> listeners;
 
 	public StdDrawModel() {
-		figures = new ArrayList<>();
+		figures = new LinkedList<>();
 		listeners = new HashSet<>();
 	}
 
 	@Override
 	public void addFigure(Figure f) {
+		if (figures.contains(f))
+			return;
 		figures.add(f);
 		f.addFigureListener(this);
 
@@ -49,6 +52,8 @@ public class StdDrawModel implements DrawModel, FigureListener {
 
 	@Override
 	public void removeFigure(Figure f) {
+		if (!figures.contains(f))
+			return;
 		figures.remove(f);
 		f.removeFigureListener(this);
 		notifyListeners(new DrawModelEvent(this, f, DrawModelEvent.Type.FIGURE_REMOVED));
@@ -83,14 +88,21 @@ public class StdDrawModel implements DrawModel, FigureListener {
 
 	@Override
 	public void setFigureIndex(Figure f, int index) {
-		figures.remove(f);
-		figures.add(index, f);
+		notifyListeners(new DrawModelEvent(this, f, DrawModelEvent.Type.DRAWING_CHANGED));
+		if (index >= figures.size())
+			throw new IndexOutOfBoundsException();
+		if (!figures.contains(f))
+			throw new IllegalArgumentException();
+		if (figures.indexOf(f) == index)
+			return;
+		figures.add(index, figures.remove(figures.indexOf(f)));
 	}
 
 	@Override
 	public void removeAllFigures() {
 		figures.forEach(f -> f.removeFigureListener(this));
 		figures.clear();
+		notifyListeners(new DrawModelEvent(this, null, DrawModelEvent.Type.DRAWING_CLEARED));
 	}
 
 	@Override
