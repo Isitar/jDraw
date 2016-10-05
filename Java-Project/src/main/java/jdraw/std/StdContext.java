@@ -15,6 +15,7 @@ import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 
 import jdraw.figures.LineTool;
+import jdraw.figures.PVLogoTool;
 import jdraw.figures.RectTool;
 import jdraw.framework.DrawCommandHandler;
 import jdraw.framework.DrawModel;
@@ -170,6 +171,7 @@ public class StdContext extends AbstractContext {
 		DrawTool rectangleTool = new RectTool(this);
 		addTool(rectangleTool);
 		addTool(new LineTool(this));
+		addTool(new PVLogoTool(this));
 	}
 
 	/**
