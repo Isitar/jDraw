@@ -39,8 +39,10 @@ public abstract class AbstractDrawTool<T extends ObservableFigure> implements Dr
 
 	private Point anchor = null;
 
-	public AbstractDrawTool() {
+	public AbstractDrawTool(DrawContext context) {
 		super();
+		this.context = context;
+		this.view = context.getView();
 	}
 
 	/**
@@ -134,4 +136,14 @@ public abstract class AbstractDrawTool<T extends ObservableFigure> implements Dr
 	@Override
 	public abstract String getName();
 
+	@Override
+	public void activate() {
+		this.context.showStatusText(getName() + " Mode");
+
+	}
+
+	@Override
+	public void deactivate() {
+		this.context.showStatusText("");
+	}
 }
