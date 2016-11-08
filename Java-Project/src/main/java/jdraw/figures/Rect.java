@@ -9,9 +9,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+
 import jdraw.framework.Figure;
 import jdraw.framework.FigureHandle;
+import jdraw.handles.NorthEastHandle;
+import jdraw.handles.NorthWestHandle;
 
 /**
  * Represents rectangles in JDraw.
@@ -22,6 +27,7 @@ import jdraw.framework.FigureHandle;
 @SuppressWarnings("serial")
 public class Rect extends ObservableFigure implements Figure {
 
+    
 	/**
 	 * Use the java.awt.Rectangle in order to save/reuse code.
 	 */
@@ -41,6 +47,7 @@ public class Rect extends ObservableFigure implements Figure {
 	 */
 	public Rect(int x, int y, int w, int h) {
 		rectangle = new java.awt.Rectangle(x, y, w, h);
+
 	}
 
 	/**
@@ -83,16 +90,7 @@ public class Rect extends ObservableFigure implements Figure {
 		return rectangle.getBounds();
 	}
 
-	/**
-	 * Returns a list of 8 handles for this Rectangle.
-	 * 
-	 * @return all handles that are attached to the targeted figure.
-	 * @see jdraw.framework.Figure#getHandles()
-	 */
-	@Override
-	public List<FigureHandle> getHandles() {
-		return null;
-	}
+
 
 	@Override
 	public Figure clone() {

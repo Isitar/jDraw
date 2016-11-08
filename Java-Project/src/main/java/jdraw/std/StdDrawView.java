@@ -350,7 +350,7 @@ public final class StdDrawView extends JComponent implements DrawView {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			requestFocus();
-			
+			///TODO: state pattern für grids
 			Point p = constrainPoint(new Point(e.getX(), e.getY()), 1);
 			if (dragging > 0) {
 				// mouse was pressed during dragging, e.g. another mouse button.
